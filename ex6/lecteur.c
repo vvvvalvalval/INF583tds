@@ -32,6 +32,11 @@
 // Std ints
 #include <stdint.h>
 
+int read_au_word(FILE * audio_file_fd) {
+	int ret;
+	MY_READ(audio_file_fd, & ret, sizeof(ret));
+	return ntohl(ret);
+}
 
 /*****
  * Main function
@@ -78,6 +83,16 @@ int main(int argc, char ** argv)
  
   // Let's read the header file
   // TO COMPLETE !!!
+  int data_offset;
+  MY_READ(audio_file_fd, & data_offset, sizeof(data_offset));
+  data_offset = ntohl(data_offset);
+
+  int data_size = read_au_word(audio_file_fd);
+  int encoding = read_au_word(audio_file_fd);
+  int sample_rate = read_au_word(audio_file_fd);
+  int channels = read_au_word(audio_file_fd);
+
+
 
   /*****
    * Step 2: open and configure the dsp file
