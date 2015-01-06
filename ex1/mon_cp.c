@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define BUFFER_SIZE 20
+
 /* Gestion des erreurs dans les arguments */
 #define ARGUMENTS_ERROR(MESSAGE) \
   { \
@@ -30,7 +32,26 @@ char * create_copy_name(char* source, char* destination)
 /* Copie de fichier */
 int copy(char* source, char* destination)
 {
+  FILE * in;
+  FILE * out;
+  int n_read = 0;
+
+  char* buffer = malloc(sizeof(char)*BUFFER_SIZE);
+
   printf("Copie du fichier %s sur le fichier %s\n",source,destination);
+
+  in = fopen(source, "r");
+  out = fopen(destination, "w");
+
+  while((n_read = fread(buffer,BUFFER_SIZE,1,in)) > 0){ // GOTCHA we count on the size of read objects not to exceed BUFFER_SIZE
+	  fwrite(buffer,n_read,1,out); // GOTCHA copy no more than the number read
+  }
+
+  fclose(in);
+  fclose(out);
+
+  free(buffer); // GOTCHA seems like it will find the size of the block to free
+
   return 0;
 }
 
