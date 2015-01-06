@@ -1,0 +1,16 @@
+*/.project
+*/.cproject
+*/.settings
+
+*.o
+*.a
+*.so
+
+*~
+
+
+ex1/mon_cp
+ex2/mon_cp_static
+ex2/mon_cp_dynamic
+ex6/lecteur
+
